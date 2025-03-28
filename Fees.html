@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name='viewport' content='width=device-width, initial-scale=1'/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rioce Payment</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+
+        form { width: 300px; margin: auto; }
+
+        select, input, button{ width: 100%; padding: 10px; margin: 10px  ; }
+
+        div.QR-Code{
+  border: 5px solid white;
+
+}
+    Select{
+        width: 325px;
+     }
+
+     .button-pay:hover{
+        background-color: #3AE723;
+        font-size: 20px;
+        border: 2px solid #6730E7;
+        width: 325px;
+     }
+     .button-halp{
+        width: 100px;
+        float: right;
+        height: auto;
+     }
+
+    </style>
+</head>
+<body>
+
+    <h2>Rioce Computer Studes - Payment</h2>
+    <form id="paymentForm">
+        <input type="text" id="name" placeholder="Enter Your Name" required>
+        <input type="email" id="email" placeholder="Enter Your Email" required>
+        <input type="tel" id="mobile" placeholder="Enter Your Mobile No." required>
+
+        <select id="course" required onchange="setAmount()">
+            <option value="" disabled selected>Select Course</option>
+            <option value="CC" data-amount="5000">CC - ₹5000</option>
+            <option value="CCA" data-amount="8000">CCA - ₹8000</option>
+            <option value="DDTP" data-amount="12000">DDTP - ₹12000</option>
+            <option value="DFA" data-amount="12000">DFA - ₹12000</option>
+            <option value="DCA" data-amount="12000">DCA - ₹12000</option>
+            <option value="ADWD" data-amount="12000">ADWD - ₹12000</option>
+            <option value="CCC" data-amount="12000">ADFA - ₹12000</option>
+            <option value="CCC" data-amount="12000">CCC - ₹12000</option>
+            <option value="O.LEVEL" data-amount="12000">O.LEVEL - ₹12000</option>
+        </select>
+
+        <input type="text" id="amount" placeholder="Amount" readonly>
+
+        <button disabled class="button-pay" onclick="payNow()">Pay Now</button>
+    </form>
+    <h1>Scan QR Code </h1>
+<div class="QR-code">
+<img src="QR-Code.jpg" width="200" height="200">
+</div>
+</div>
+<div class="button-halp">
+<button id="myButton">Help</button>
+</div>
+
+    <script>
+        function setAmount() {
+            let courseSelect = document.getElementById("course");
+            let selectedOption = courseSelect.options[courseSelect.selectedIndex];
+            let amount = selectedOption.getAttribute("data-amount");
+            document.getElementById("amount").value = "₹" + amount;
+        }
+
+        function payNow() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let mobile = document.getElementById("mobile").value;
+            let course = document.getElementById("course").value;
+            let amount = document.getElementById("course").selectedOptions[0].getAttribute("data-amount");
+
+            if (!name || !email || !mobile || !course) {
+                alert("Please fill all details!");
+                return;
+            }
+
+            // UPI Payment Link Generate
+            let upiId = "rampandey371@okhdfcbank";  // Yahan apna UPI ID daalna
+            let upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&tn=Course Fees (${course})&am=${amount}&cu=INR`;
+
+            // Redirect to UPI App
+            window.location.href = upiLink;
+        }
+  document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();
+  });
+  /* this is a javascript code line for provide a safe payment option to not a wiew page sourse code in other person Block a right click option on mause and trackpad*/
+  document.addEventListener("contextmenu", function(event) {
+    event.preventDefault();
+  });
+/* this code is a block a keyboard shortcuts*/
+  document.addEventListener("keydown", function(event) {
+    if (event.ctrlKey && (event.key === "u" || event.key === "U")) {
+      event.preventDefault();
+    }
+  });
+  /* This code is a block a Inspect Elements & Developer Tools*/
+  document.addEventListener("keydown", function(event) {
+    if (event.ctrlKey && event.shiftKey && event.key === "I") {
+      event.preventDefault();
+    }
+    if (event.ctrlKey && event.shiftKey && event.key === "J") {
+      event.preventDefault();
+    }
+    if (event.ctrlKey && event.key === "S") {
+      event.preventDefault();
+    }
+    if (event.ctrlKey && event.key === "H") {
+      event.preventDefault();
+    }
+    if (event.key === "F12") {
+      event.preventDefault();
+    }
+  });
+  /*show with a halp to any case not a send payment in UPI ID*/
+  document.getElementById("myButton").addEventListener("click",function(){
+    alert("It is possible that the UPI ID does not work on its own, this could be a program error or issue. The user can use the QR code given below or can make the payment directly through the QR code of the centre.");
+  });
+    </script>
+</body>
+</html>
